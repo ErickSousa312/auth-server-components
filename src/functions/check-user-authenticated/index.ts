@@ -1,8 +1,10 @@
+
 /** 
  * {getStorageItem} from 'utils'
  * @importarDepois
  *
 */
+
 'use client'
 
 export const checkUserAuthenticated = ()=>{
