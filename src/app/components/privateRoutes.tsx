@@ -17,10 +17,6 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
     }
   }, [tokenValido, loading, push]);
 
-  if (loading) {
-    return <div>Carregando...</div>;
-  }
-
   return (
     <>
       {!tokenValido && null}

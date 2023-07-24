@@ -8,7 +8,7 @@ export const useCheckUserAuthenticated = () => {
   const [tokenValido, setTokenValido] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const checkToken = () => {
+  const checkToken =() => {
     // Obter o token do usuário do localStorage ou de outra fonte
     const token = localStorage.getItem('token') ?? 'token não encontrado';
     setToken(token);
@@ -24,6 +24,7 @@ export const useCheckUserAuthenticated = () => {
     })
       .then((response) => {
         if (response.ok) {
+
           console.log('passou1');
           setTokenValido(true);
         } else {
