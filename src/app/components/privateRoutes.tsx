@@ -1,30 +1,32 @@
-import { useRouter } from 'next/navigation'
-import { checkUserAuthenticated } from '@/functions/check-user-authenticated'
-import { useEffect } from 'react'
-import { App_Routes } from '@/constants/app-routes'
+// Em "privateRoutes.js"
+'use client'
+import { useRouter } from 'next/navigation';
+import { useCheckUserAuthenticated } from '@/app/functions/check-user-authenticated';
+import { useEffect } from 'react';
+import { App_Routes } from '@/constants/app-routes';
 
-function PrivateRoute ({
-    children 
-}:{
-    children: React.ReactNode
-}) {
-    const {push} = useRouter()
+function PrivateRoute({ children }: { children: React.ReactNode }) {
+  const { push } = useRouter();
 
-    const isAuth = checkUserAuthenticated()
-    useEffect(()=>{
-        if(!isAuth){
-            push(App_Routes.public.login)
-        }
-    },[isAuth, push])
-  
-    return (
-      <>
-        {!isAuth && null}
-        {isAuth && children} 
-        {/* {shouldUseDefaultLayout && <div>{children}</div>} 
-        {!shouldUseDefaultLayout && <div><h1>privatesoute</h1>{children}</div>}  */}
-      </>
-    );
-  };
+  const { tokenValido, loading } = useCheckUserAuthenticated();
 
-export default PrivateRoute
+  useEffect(() => {
+    console.log(tokenValido + ' auth');
+    if (!loading && !tokenValido) {
+      push(App_Routes.public.login);
+    }
+  }, [tokenValido, loading, push]);
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  return (
+    <>
+      {!tokenValido && null}
+      {tokenValido && children}
+    </>
+  );
+}
+
+export default PrivateRoute;
